@@ -30,10 +30,11 @@ jobs:
         sdk: 10.0.18362.0
     - name: Compiling aseprite for Windows
       run: |
+        $env:SkiaPath = "$(pwd | findstr \)\skia"
         cd aseprite
         mkdir build
         cd build
-        cmake -Wno-dev -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR="$(pwd | findstr \)"\skia -DSKIA_LIBRARY_DIR="$(pwd | findstr \)"\skia\out\Release-x64 -DSKIA_LIBRARY="$(pwd | findstr \)"\skia\out\Release-x64\skia.lib -G Ninja ..
+        cmake -Wno-dev -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR="$env:SkiaPath" -DSKIA_LIBRARY_DIR="$env:SkiaPath\out\Release-x64" -DSKIA_LIBRARY="$env:SkiaPath\out\Release-x64\skia.lib" -G Ninja ..
         ninja aseprite
     - name: Archive bin
       run: |
